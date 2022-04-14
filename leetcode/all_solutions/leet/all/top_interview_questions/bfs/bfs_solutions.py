@@ -1,0 +1,3 @@
+class BFSSolutions:
+
+    pass
