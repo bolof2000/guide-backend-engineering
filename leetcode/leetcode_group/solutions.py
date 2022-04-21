@@ -931,13 +931,6 @@ def unique_path(m:int,n:int):
     return dp[-1][-1]
 
 
-def jump_game(nums):
-    dp = [False]*len(nums)
-    for i in range(len(nums)-1,-1,-1):
-
-
-
-
 if __name__ == '__main__':
 
     print(unique_path(3,7))

@@ -1,0 +1,4 @@
+apiVersion: api.k8s.io/v1
+kind: Namespace
+metadata:
+  name: production 

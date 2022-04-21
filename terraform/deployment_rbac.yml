@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: deployment
+  namespace: production
+
+--- 
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: deployment
+  namespace: production
+rules:
+  - apiGroups: [""]
+    resources: ["deployment","configmap","secret"]
+    verbs: ["get","watch","list","create","update"]
+
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: deployment
+  namespace: production
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: developer
+subjects:
+  - kind: ServiceAccount
+    name: developer
+    namespace: production

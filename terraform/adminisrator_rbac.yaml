@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: administrator
+  namespace: production
+
+--- 
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: developer
+  namespace: production
+rules:
+  - apiGroups: [""]
+    resources: ["*"]
+    verbs: ["get", "create", "update", "delete", "list", "watch", "patch", "update", "deletecollection"]
+
+--- 
+
+apiVersion: v1 
+kind: rolebinding
+metadata:
+  name: administrator
+  namespace: production
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: administrator
+subjects:
+  - kind: ServiceAccount
+    name: administrator
+    namespace: production
+
+  

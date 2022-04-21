@@ -3,6 +3,76 @@ from collections import *
 from typing import List
 from heapq import heappush, heappop
 
+import os, sys
+utils_path = os.path.join('..', '..', '..', '..', 'problems', 'utils', 'python')
+sys.path.append(utils_path)
+
+class LinkedListNode:
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+    self.prev = None
+    self.arbitrary = None
+    
+import random
+
+def insert_at_head(head, data):
+  newNode = LinkedListNode(data)
+  newNode.next = head
+  return newNode
+
+def insert_at_tail(head, node):
+  if head is None:
+    return node
+
+  temp = head;
+
+  while temp.next != None:
+    temp = temp.next
+
+  temp.next = node;
+  return head
+
+def create_random_list(length):
+  list_head = None
+  for i in range(0, length):
+    list_head = insert_at_head(list_head, random.randrange(1, 100))
+  return list_head
+
+def create_linked_list(lst):
+  list_head = None
+  for x in reversed(lst):
+    list_head = insert_at_head(list_head, x)
+  return list_head
+
+def display(head):
+  temp = head
+  while temp:
+    print(str(temp.data),end="")
+    temp = temp.next
+    if temp != None:
+      print(", ", end="")
+
+def to_list(head):
+  lst = []
+  temp = head
+  while temp:
+    lst.append(temp.data)
+    temp = temp.next
+  return lst
+
+def is_equal(list1, list2):
+  if list1 is list2:
+    return True
+
+  while list1 != None and list2 != None:
+    if list1.data != list2.data:
+      return False
+    list1 = list1.next
+    list2 = list2.next
+
+  return list1 == list2
+
 
 class Node():
     def __init__(self, val, next=None):
@@ -1480,22 +1550,153 @@ class QueueUsingStack:
                 
     def empty(self):
         return True if len(self.stack1)==0 and len(self.stack2)==0 else False 
+    
+
+def meeting_room_two(intervals):
+   start = []
+   end = []
+   count = 0
+   
+   for item in intervals:
+       start = item[0]
+       end = item[1]
+       
+   start.sort()
+   end.sort()
+   
+   j = 0
+   for i in range(len(start)):
+       
+       if start[i] < end[j]:
+           count +=1
+       else:
+           j +=1
+
+   return count 
+           
+def meeting_room_lam(intervals:List[List[int]]):
+    intervals.sort(key=lambda x:(x[0],x[1]))
+    
+    return intervals
 
 
+def group_titles(strs):
+    res = {}
+    count = [0]*26 
+    for s in strs:
+       
+        for c in s:
+            index = ord(c) - ord('a')
+            count[index] += 1
+
+        key = tuple(count)
+        print(key)
+
+    return count 
+           
+
+def merge2_linkedlist(l1,l2):
+    dummy = LinkedListNode(-1)
+    result = dummy 
+    while l1 and l2:
+        if l1.data < l2.data:
+            dummy.next = l1
+            l1 = l1.next
+        else:
+            dummy.next = l2
+            l2 = l2.next 
+
+        dummy = dummy.next 
+    
+    if l1 is not None: 
+        dummy.next = l1 
+    else:
+        dummy.next = l2
+    return result.next 
+
+def mergeK_list(lists):
+    if len(lists) >0:
+        res = lists[0]
+        for i in range(1,len(lists)):
+            res = merge2_linkedlist(res,lists[i])
+        return res 
+    return
+
+def find_minimum_in_rotated_sorted_array(nums):
+    
+    left,right = 0, len(nums)-1
+    if nums(left) < nums[right]:
+        return nums[left]
+
+    while left+1 < right:
+        mid = (left+right)//2
+        if nums[mid] < nums[right]:
+            right =mid 
+        else:
+            left = mid 
+    return min(nums[left],nums[right])
+
+
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        left = 0
+        right = len(numbers)-1
+        result = []
+        while left< right:
+            temp= numbers[left]+numbers[right]
+            if temp == target:
+                result.append(left+1)
+                result.append(right+1)
+
+                left +=1
+                right -=1
+            elif temp > target:
+                right -=1
+            else:
+                left +=1
+        return result 
+    
+    
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        index =0 
+        for i in range(len(nums)):
+            if nums[i] !=0:
+                nums[index] = nums[i]
+                index +=1
+        for i in range(index,len(nums)):
+            nums[i] =0 
+ 
+     
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        
+        window = 0 
+        for i in range(1,len(nums)):
+            if nums[window] != nums[i]:
+                windows +=1
+                nums[window] = nums[i] 
+        return window 
+             
+
+    
 if __name__ == '__main__':
 
-    print(unique_path(3,7))
-
-def search_in_rotated_array(nums):
-    pass
-
-
-def three_sum(nums, target):
-    pass
-
-def search_in_rotated_sorted_array(nums: List[int]):
-    pass
-
+    #print(unique_path(3,7))
+    intervals = [[0,30],[5,10],[15,20]]
+    #print(meeting_room_lam(intervals))
+    
+    #titles = ["duel","dule","speed","spede","deul","cars"]
+   # print(group_titles(titles))
+    a = create_linked_list([11,41,51])
+    b = create_linked_list([21,23,42])
+    c = create_linked_list([25,56,66,72])
+    d = create_linked_list([50,60,70])
+    display(mergeK_list([a,b,c,d]))
+    
 
 
 

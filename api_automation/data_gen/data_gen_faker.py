@@ -18,8 +18,23 @@ def generate_api_payload():
 
 def test_create_new_user():
     payload = generate_api_payload()
+
     response = requests.post("https://reqres.in/api/users", payload)
     response_json = response.json()
     json_str = json.dumps(response_json,indent=2)
     print(json_str)
+    assert response.status_code == 201
+
+
+def test_create_new_user2():
+    json_str = {
+    "name": "volof",
+     "job": "enginer"
+    }
+
+    response = requests.post("https://reqres.in/api/users", json_str)
+    response_json = response.json()
+   # json_str = json.dumps(response_json, indent=2)
+    json_str_von = json.dumps(json_str,indent=2)
+    print(json_str_von)
     assert response.status_code == 201

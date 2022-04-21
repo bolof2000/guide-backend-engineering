@@ -53,29 +53,21 @@ class Solutions:
     def exist(self, board, word):
         for row in range(len(board)):
             for col in range(len(board[0])):
-                if board[row][col] == word[0] and self.dfs(board, row, col, word):
+                if board[row][col] == word[0] and self.dfs(board, row, col, word,count):
                     return True
 
         return False
 
-    def dfs(self, board, row, col, word):
-        if len(word) == 0:
+    def dfs(self, board, row, col, word,count):
+        if len(word) == count:
             return True
-        if row < 0 or row >= len(board) or col < 0 or col > len(board[0]) or board[row][col] != word[0]:
+        if row < 0 or row >= len(board) or col < 0 or col > len(board[0]) or board[row][col] != word[count]:
             return False
-
         temp = board[row][col]
         board[row][col] = ' '
-        if (self.dfs(board, row - 1, col, word[1:])
-                or self.dfs(board, row + 1, col, word[1:])
-                or self.dfs(board, row, col - 1, word[1:])
-                or self.dfs(board, row, col + 1, word[1:])
-        ):
-            return True
-
+        found = self.dfs(board, row - 1, col, word,count+1)or self.dfs(board, row + 1, col, word,count+1)   or self.dfs(board, row, col - 1, word,count+1)  or self.dfs(board, row, col + 1, word,count+1)
         board[row][col] = temp
-
-        return False
+        return found
 
     def productArrayExceptSelf(self, nums):
 
@@ -155,6 +147,8 @@ class Solutions:
             dp.append(max(dp[i - 2] + nums[i], dp[i - 1]))
 
         return dp.pop()
+    def house_robber_two(self,nums):
+        return max(self.houseRobber(nums[1:]),self.houseRobber(nums[:-1]))
 
     def removeElements(self, head: ListNode, val: int) -> ListNode:
 
